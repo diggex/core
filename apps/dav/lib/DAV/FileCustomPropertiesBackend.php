@@ -1,6 +1,8 @@
 <?php
 /**
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Viktar Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2017, ownCloud GmbH
  * @license AGPL-3.0
@@ -25,7 +27,7 @@ use Doctrine\DBAL\Connection;
 use OCA\DAV\Connector\Sabre\Directory;
 use Sabre\DAV\INode;
 
-class FileCustomPropertiesBackend extends CustomPropertiesBackendAbstract {
+class FileCustomPropertiesBackend extends AbstractCustomPropertiesBackend {
 
 	const SELECT_BY_ID_STMT = 'SELECT * FROM `*PREFIX*properties` WHERE `fileid` = ?';
 	const INSERT_BY_ID_STMT = 'INSERT INTO `*PREFIX*properties`'
@@ -63,7 +65,7 @@ class FileCustomPropertiesBackend extends CustomPropertiesBackendAbstract {
 	 * @return void
 	 */
 	public function move($source, $destination) {
-		// Part of interface. We don't care about move as soon as it doesn't affect fileId
+		// Part of interface. We don't care about move because it doesn't affect fileId
 	}
 
 	/**
@@ -172,6 +174,7 @@ class FileCustomPropertiesBackend extends CustomPropertiesBackendAbstract {
 			}
 		}
 
+		// TODO: use query builder
 		$sql = 'SELECT * FROM `*PREFIX*properties` WHERE `fileid` IN (?)';
 		$sql .= ' AND `propertyname` in (?) ORDER BY `propertyname`';
 

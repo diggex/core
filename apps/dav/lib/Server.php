@@ -187,6 +187,7 @@ class Server {
 					)
 				);
 				$filePropertiesPlugin->pathFilter = function($path) {
+					// oh yes, we could set custom properties on the user's storage root
 					return strpos($path, 'files/') === 0;
 				};
 				$this->server->addPlugin($filePropertiesPlugin);

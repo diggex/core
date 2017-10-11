@@ -24,7 +24,7 @@ namespace OCA\DAV\DAV;
 use Doctrine\DBAL\Connection;
 use Sabre\DAV\INode;
 
-class MiscCustomPropertiesBackend extends CustomPropertiesBackendAbstract {
+class MiscCustomPropertiesBackend extends AbstractCustomPropertiesBackend {
 
 	const SELECT_BY_PATH_STMT = 'SELECT * FROM `*PREFIX*dav_properties` WHERE `propertypath` = ?';
 	const INSERT_BY_PATH_STMT = 'INSERT INTO `*PREFIX*dav_properties`'

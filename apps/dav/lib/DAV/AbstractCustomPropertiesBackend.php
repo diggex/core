@@ -32,7 +32,7 @@ use Sabre\Dav\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 
-abstract class CustomPropertiesBackendAbstract implements BackendInterface {
+abstract class AbstractCustomPropertiesBackend implements BackendInterface {
 
 	/**
 	 * Ignored properties
