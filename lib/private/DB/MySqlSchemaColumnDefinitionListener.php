@@ -27,12 +27,17 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types\Type;
 
 class MySqlSchemaColumnDefinitionListener{
-
-	public function __construct() {
-		$this->_platform = new MySqlPlatform();
-	}
+	/**
+	 * @var \Doctrine\DBAL\Platforms\AbstractPlatform
+	 */
+	protected $_platform;
 
 	public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $eventArgs) {
+		// We need an instance of platform with ownCloud-specific patches
+		//  it can't be done in constructor - it leads to recursion
+		if (is_null($this->_platform)) {
+			$this->_platform = \OC::$server->getDatabaseConnection()->getDatabasePlatform();
+		}
 		$tableColumn = $eventArgs->getTableColumn();
 		$eventArgs->preventDefault();
 		$column = $this->_getPortableTableColumnDefinition($tableColumn);
