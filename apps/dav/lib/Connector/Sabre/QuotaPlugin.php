@@ -163,7 +163,16 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				$path = rtrim($parentPath, '/') . '/' . $info['name'];
 			}
 			$freeSpace = $this->getFreeSpace($path);
-			if ($freeSpace !== FileInfo::SPACE_UNKNOWN && $length > $freeSpace) {
+			\OCP\Util::writeLog('DEBUG', 'freespace of "' . $path . '" is ' . $freeSpace, \OCP\Util::DEBUG);
+			// TODO: uncomment as it fixes an issue, but commenting out makes it possible to debug
+			// exception forwarding in the DAV class
+			/*
+			if ($freeSpace === FileInfo::SPACE_UNKNOWN && $path !== '' && $path !== '/') {
+				// try the parent as it might be a non-existing file
+				$freeSpace = $this->getFreeSpace(dirname($path));
+			}
+			 */
+			if ($freeSpace !== FileInfo::SPACE_UNKNOWN && $freeSpace !== FileInfo::SPACE_UNLIMITED && $length > $freeSpace) {
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
 				}
